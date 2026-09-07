@@ -1,3 +1,3 @@
 # Volatility-Risk-Differentiator
 
--[] in progress with determinations
+-[o] in progress with determinations
