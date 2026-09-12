@@ -26,8 +26,8 @@ These are all correlative to stocks; plots (scatter) for historical distribution
 - [x] Formulas and rationales for a multitude of different financial concepts (Sharpe's Ratio, Sortino's Ratio, the. Pareto Efficient Frontier, etc.).
 - [x] Utilizing matplot.lib to construct a scatter plot consistent of multiple plot, in conjunction with pathlib (localizing graph's file path).
 - [x] Utilizing datetime to pull daily information and utilize it to calculate historical-based stock data metrics.
-- [x] Developing skills in relation to pulling financial information from the yfinance API and even manipulated said information.
-- [x] Utilizing filter conditions to filter out specific standard deviations from a data frame (in this case, downside deviations(.
+- [x] Developing skills in relation to pulling financial information from the yfinance API and even manipulating said information.
+- [x] Utilizing filter conditions to filter out specific standard deviations from a data frame (in this case, downside deviations).
 - [x] Through comparison statements and conditionals, comparing different elements (candidates) with others based on attributes (in this case, risk and return).
 - [x] Using a new library known as scipy.stats for tstd() function, which trims excess values during a standard deviation calculation from a data source (frame or otherwise).
 - [x] Parsing multiple input parameters from the terminal and calculating various different values for each, with comparison statements (referencing point 6).
