@@ -1,23 +1,29 @@
 """Compare the risk and return of one or more stocks."""
 
-from __future__ import annotations
+from __future__ import annotations # Annotation syntax counter point. 
 
 import argparse # Making sure that stock tickers can be read.
 from dataclasses import dataclass # Data classification for stock metrics.
 from datetime import datetime, timedelta # Year history of data. 
 from pathlib import Path # Chart saving locality. 
 
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-import yfinance as yf
-from scipy.stats import tstd
+import matplotlib.pyplot as plt # Plotting library.
+import numpy as np # Numerical operations.
+import pandas as pd # Data manipulation and analysis.
+import yfinance as yf # Financial API.
+from scipy.stats import tstd # Statistic evaluations. 
 
+# I'm learning about Sortino ratio (investment returns/downside risk). ALL POSITIVES growths/metrics are IGNORED for this corrolary. 
+# (Asset returns - target return) / downside deviation (deviation below target). 
 
-TRADING_DAYS_PER_YEAR = 252
-RISK_FREE_RATE = 0.02
-OUTPUT_FILE = Path("risk_return_scatter.png")
+# I'm also learning about Sharpe ratio! - (Portfolio's risk-adjusted return).
+# (Actual return - arbitrary beta (risk free rate))/ standard deviation (distance from general return)
 
+TRADING_DAYS_PER_YEAR = 252 # NYSE standard trading max. 
+RISK_FREE_RATE = 0.02 # Investment return (0% loss) - (NOT RELATED TO CURRENT MARKET //TODO)
+OUTPUT_FILE = Path("risk_return_scatter.png") # File path for the scatter plot. 
+
+# Class holding target values for Stock analysis. 
 
 @dataclass
 class StockMetrics:
