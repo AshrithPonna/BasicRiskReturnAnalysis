@@ -15,9 +15,11 @@ from scipy.stats import tstd # Statistic evaluations.
 
 # I'm learning about Sortino ratio (investment returns/downside risk). ALL POSITIVES growths/metrics are IGNORED for this corrolary. 
 # (Asset returns - target return) / downside deviation (deviation below target). 
+# Negative volatility determination.
 
 # I'm also learning about Sharpe ratio! - (Portfolio's risk-adjusted return).
-# (Actual return - arbitrary beta (risk free rate))/ standard deviation (distance from general return)
+# (Actual return - arbitrary beta (risk free rate))/ standard deviation (distance from general return).
+# Excess return/standard deviation of standard deviation of all returns. 
 
 TRADING_DAYS_PER_YEAR = 252 # NYSE standard trading max. 
 RISK_FREE_RATE = 0.02 # Investment return (0% loss) - (NOT RELATED TO CURRENT MARKET //TODO)
@@ -94,16 +96,18 @@ def calculate_metrics(ticker: str, prices: pd.Series) -> StockMetrics:
     downside_returns = daily_returns[daily_returns < daily_risk_free_rate] - daily_risk_free_rate # Looking for filtered returns that are < than daily risk free rate; aforementioned value is then substracted with the daily risk free rate for a positive to negative conversion.
     downside_deviation = tstd(downside_returns, ddof=1) if len(downside_returns) > 1 else 0.0 # Ensures that there are more than 1 days for comparison. Swing of standard deviation (extent) is determined. 
     # I'm learning about the delta degrees of freedom parameter that, when set to one, actually takes into context historical data (sample standard deviation)! - Risk determination
-    annualized_downside_deviation = downside_deviation * np.sqrt(TRADING_DAYS_PER_YEAR)
+    annualized_downside_deviation = downside_deviation * np.sqrt(TRADING_DAYS_PER_YEAR) # Deviation is scaled up to an annual extent. An exponential relation is learned here. 
     sortino_ratio = (
-        (annual_return - RISK_FREE_RATE) / annualized_downside_deviation
+        (annual_return - RISK_FREE_RATE) / annualized_downside_deviation # Accounts for an error output, and finally decides to calculate a viable sortino ratio. 
         if annualized_downside_deviation > 0
         else np.nan
     )
 
     # Compare each price with the highest price seen before it.
-    running_peak = prices.cummax()
-    maximum_drawdown = (prices / running_peak - 1).min()
+    running_peak = prices.cummax() # Calculates highest price recorded (cumulative max).
+    maximum_drawdown = (prices / running_peak - 1).min() # Calculates drop of price with comparison from aforementioned variable. 
+
+    #
 
     return StockMetrics(
         ticker=ticker,
