@@ -12,13 +12,31 @@ python risk_return_analyzer.py QMCO (single parameter) # Analyze QMCO
 python risk_return_analyzer.py QMCO SPCX COF (multiple parameters) # Analyze QMCO, SPCX, AND COF (with efficiency comparisons)
 ```
 ## Overview
-This application takes real-time financial metrics from yfinance API and then uses them to calculate risk & return comparisons between companies. 
+This application takes real-time financial metrics from the yfinance API and then uses them to calculate risk & return comparisons between companies through several variables:
 - [x] Stock Annual Return (mean of daily returns and total trading days)
 - [x] Daily Risk (risk free rate and total trading days)
 - [x] Sharpe Ratio (actual return, arbitrary beta risk free rate, and return standard deviation)
 - [x] Sortino Ratio (actual returns, target return, and downside deviation).
 - [x] Max Drawdown (change in price based on cumulative maximum value).
-- [x] Efficiency Determination (company versus company on basis of risk & return).
+- [x] Efficiency Determination (company versus company on basis of risk & return; Pareto Efficient Frontier).
+
+These are all correlative to stocks; plots (scatter) for historical distributions and comparisons, with asymptotic risk levels are created. 
 
 ## Learning Technicalities
-getting back to this
+- [x] ummm
+
+## Skills
+- [x] Python 3
+- [x] yfinance (stock data)
+- [x] pandas (data manipulation)
+- [x] numpy (calculations)
+- [x] matplotlib (visualization)
+- [x] scipy.stats (statistics)
+
+## Developer Logs
+
+Tested and reviewed codebase.
+
+//TODO
+
+RiskFreeRate --> Constantly Changing (Dynamic)
