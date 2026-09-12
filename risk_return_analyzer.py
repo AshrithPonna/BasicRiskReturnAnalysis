@@ -61,16 +61,21 @@ def download_prices(ticker: str) -> pd.Series:
     if data.empty:
         raise ValueError(f"No price data was returned for {ticker}.")
 
-    # yfinance can return a MultiIndex even for one requested ticker.
+    # Analyzing data columns (similar to data frames in R and then views closing prices of columns).
+
     if isinstance(data.columns, pd.MultiIndex):
         prices = data["Close"].iloc[:, 0]
     else:
         prices = data["Close"]
+
+    # Eradicating any invalidated arguments. 
+
     prices = prices.dropna()
-    if len(prices) < 2:
+    if len(prices) < 2: # final parameter closing checks for 2 days (prior relations)
         raise ValueError(f"Not enough price data was returned for {ticker}.")
     return prices
 
+# Converting values in a metrics object (new data frame), this is something I learned, metrics object is basically a data frame conversion based on an array of input. 
 
 def calculate_metrics(ticker: str, prices: pd.Series) -> StockMetrics:
     """Calculate return, risk-adjusted ratios, and drawdown."""
