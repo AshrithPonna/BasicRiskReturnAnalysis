@@ -79,19 +79,21 @@ def download_prices(ticker: str) -> pd.Series:
 
 def calculate_metrics(ticker: str, prices: pd.Series) -> StockMetrics:
     """Calculate return, risk-adjusted ratios, and drawdown."""
-    daily_returns = prices.pct_change().dropna()
-    annual_return = daily_returns.mean() * TRADING_DAYS_PER_YEAR
-    daily_volatility = daily_returns.std()
+    daily_returns = prices.pct_change().dropna() # Daily returns. 
+    annual_return = daily_returns.mean() * TRADING_DAYS_PER_YEAR # Mean of daily returns * trading days yields annual return.
+    daily_volatility = daily_returns.std() # Standard deviation of daily returns yields volatility. 
 
-    # Annualize volatility so the Sharpe numerator and denominator share a time
-    # scale, even though the summary table reports daily volatility.
+    # Sharpe ratio calculation (annual return - risk free rate) / annualized volatility.
+
     annualized_volatility = daily_volatility * np.sqrt(TRADING_DAYS_PER_YEAR)
     sharpe_ratio = (annual_return - RISK_FREE_RATE) / annualized_volatility
 
-    # Sortino penalizes returns below the daily risk-free hurdle only.
-    daily_risk_free_rate = RISK_FREE_RATE / TRADING_DAYS_PER_YEAR
-    downside_returns = daily_returns[daily_returns < daily_risk_free_rate] - daily_risk_free_rate
-    downside_deviation = tstd(downside_returns, ddof=1) if len(downside_returns) > 1 else 0.0
+
+
+    daily_risk_free_rate = RISK_FREE_RATE / TRADING_DAYS_PER_YEAR # Daily risk free risk rate derived from total trading day count. 
+    downside_returns = daily_returns[daily_returns < daily_risk_free_rate] - daily_risk_free_rate # Looking for filtered returns that are < than daily risk free rate; aforementioned value is then substracted with the daily risk free rate for a positive to negative conversion.
+    downside_deviation = tstd(downside_returns, ddof=1) if len(downside_returns) > 1 else 0.0 # Ensures that there are more than 1 days for comparison. Swing of standard deviation (extent) is determined. 
+    # I'm learning about the delta degrees of freedom parameter that, when set to one, actually takes into context historical data (sample standard deviation)! - Risk determination
     annualized_downside_deviation = downside_deviation * np.sqrt(TRADING_DAYS_PER_YEAR)
     sortino_ratio = (
         (annual_return - RISK_FREE_RATE) / annualized_downside_deviation
