@@ -109,7 +109,7 @@ def calculate_metrics(ticker: str, prices: pd.Series) -> StockMetrics:
 
     #
 
-    return StockMetrics(
+    return StockMetrics( # Data container uses information storage techniques for optimized outputs.
         ticker=ticker,
         annual_return=annual_return,
         daily_volatility=daily_volatility,
@@ -118,24 +118,25 @@ def calculate_metrics(ticker: str, prices: pd.Series) -> StockMetrics:
         maximum_drawdown=maximum_drawdown,
     )
 
+# I'm learning about the Pareto Efficient Frontier, where stocks are compared against each other on the basis of efficient returns and decreased risk.
+# Apparently, if a candidate is compared against another candidate, and that other candidate has lower/equal return AND higher or equal risk, the initially compared candidate is NOT efficient. 
 
-def mark_efficient_stocks(metrics: list[StockMetrics]) -> None:
-    """Mark stocks not dominated by another stock's return and volatility."""
-    for candidate in metrics:
+def mark_efficient_stocks(metrics: list[StockMetrics]) -> None: # Compares market candidates with each other on the basis of volatility and returns. (Marked as efficient if more optimal).
+    for candidate in metrics: # Looping through candidates.
         candidate.is_efficient = not any(
-            other is not candidate
+            other is not candidate # Beginning of comparisons. 
             and other.annual_return >= candidate.annual_return
             and other.daily_volatility <= candidate.daily_volatility
-            and (
+            and ( # Accounts for ties (one cateogiry MUST be better to some extent).
                 other.annual_return > candidate.annual_return
                 or other.daily_volatility < candidate.daily_volatility
             )
-            for other in metrics
+            for other in metrics # Looking through competitors. 
         )
 
+# Formatted table printed of all calculated stock market risk metrics from yfinance API. 
 
 def print_summary(metrics: list[StockMetrics]) -> None:
-    """Print a table ranked by Sharpe ratio."""
     ranked = sorted(metrics, key=lambda item: item.sharpe_ratio, reverse=True)
     rows = [
         {
@@ -152,23 +153,23 @@ def print_summary(metrics: list[StockMetrics]) -> None:
     ]
     print(pd.DataFrame(rows).to_string(index=False))
 
+# Scatter plot, with the output file is constructed. 
 
 def create_plot(metrics: list[StockMetrics], output_file: Path) -> None:
-    """Save the risk-return scatter plot."""
-    efficient = [item for item in metrics if item.is_efficient]
-    other = [item for item in metrics if not item.is_efficient]
-    figure, axis = plt.subplots(figsize=(10, 6))
+    efficient = [item for item in metrics if item.is_efficient] # Efficient organized in variable.
+    other = [item for item in metrics if not item.is_efficient] # Not efficient organized in variable. 
+    figure, axis = plt.subplots(figsize=(10, 6)) # 10x6 plot consutrtued. 
     axis.scatter(
-        [item.daily_volatility for item in other],
-        [item.annual_return for item in other],
-        color="steelblue",
+        [item.daily_volatility for item in other], # x-axis
+        [item.annual_return for item in other], # y-axis
+        color="steelblue", # Plotting non-efficient stocks.
         s=100,
         label="Other stocks",
     )
     axis.scatter(
-        [item.daily_volatility for item in efficient],
-        [item.annual_return for item in efficient],
-        color="darkorange",
+        [item.daily_volatility for item in efficient], # x-axis
+        [item.annual_return for item in efficient], # y-axis
+        color="darkorange", # Plotting efficient stocks. 
         edgecolor="black",
         s=140,
         label="Efficient stocks",
@@ -177,7 +178,8 @@ def create_plot(metrics: list[StockMetrics], output_file: Path) -> None:
     for item in metrics:
         axis.annotate(item.ticker, (item.daily_volatility, item.annual_return), xytext=(6, 6), textcoords="offset points")
 
-    # The risk-free asset would sit at zero volatility and a 2% annual return.
+    # Risk free rate, graph titles, and layout are all constructed here. 
+
     axis.axhline(RISK_FREE_RATE, color="firebrick", linestyle="--", label="2% risk-free return")
     axis.set_title("Risk vs. Return")
     axis.set_xlabel("Daily volatility (standard deviation)")
@@ -190,16 +192,16 @@ def create_plot(metrics: list[StockMetrics], output_file: Path) -> None:
     figure.savefig(output_file, dpi=150)
     plt.close(figure)
 
+# Parametered interpreted from terminal command line. Multiple parameters can be accepted. 
 
 def parse_arguments() -> argparse.Namespace:
-    """Read ticker symbols from the command line."""
     parser = argparse.ArgumentParser(description="Analyze stock risk and return.")
     parser.add_argument("tickers", nargs="+", help="Ticker symbols, such as AAPL MSFT")
-    return parser.parse_args()
+    return parser.parse_args() # Grouping input into a different object (argparse.Namespace).
 
+# Arguments read and then interpreted accordingly. 
 
 def main() -> None:
-    """Download data, calculate metrics, print results, and save the chart."""
     arguments = parse_arguments()
     metrics: list[StockMetrics] = []
     for raw_ticker in arguments.tickers:
@@ -215,6 +217,7 @@ def main() -> None:
     create_plot(metrics, OUTPUT_FILE)
     print(f"\nSaved visualization to {OUTPUT_FILE.resolve()}")
 
+# main() method called. 
 
 if __name__ == "__main__":
     main()
