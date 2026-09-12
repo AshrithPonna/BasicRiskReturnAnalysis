@@ -4,8 +4,8 @@ Stock Risk Analyses
 
 ## Installation
 '''bash
-pip install -r requirements.txt''' # All libraries are included in the denoted .txt file. 
-
+pip install -r requirements.txt
+''' 
 ## Usage
 '''bash 
 python risk_return_analyzer.py QMCO (single parameter) # Analyze QMCO
