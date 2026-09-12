@@ -37,11 +37,17 @@ class StockMetrics:
     maximum_drawdown: float
     is_efficient: bool = False
 
+# Pulling adjusted historical prices from yfinance (mainly disregarding splits, dividends, etc.)
 
 def download_prices(ticker: str) -> pd.Series:
-    """Download one year of adjusted closing prices for a ticker."""
+
+    # End/start date built with delta integration to get a year of data.
+   
     end_date = datetime.now()
     start_date = end_date - timedelta(days=365)
+
+    #yfinance API information pulled, based on initial parameters. 
+
     data = yf.download(
         ticker,
         start=start_date,
@@ -49,6 +55,9 @@ def download_prices(ticker: str) -> pd.Series:
         auto_adjust=True,
         progress=False,
     )
+
+    # Checking for empty n/a null anomalies and providing solutions. 
+
     if data.empty:
         raise ValueError(f"No price data was returned for {ticker}.")
 
