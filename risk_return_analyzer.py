@@ -202,20 +202,20 @@ def parse_arguments() -> argparse.Namespace:
 # Arguments read and then interpreted accordingly. 
 
 def main() -> None:
-    arguments = parse_arguments()
+    arguments = parse_arguments() # Parses user input. 
     metrics: list[StockMetrics] = []
-    for raw_ticker in arguments.tickers:
+    for raw_ticker in arguments.tickers: # Captilizes ticker input as a backup system; any errors are skipped, as noted below.
         ticker = raw_ticker.upper()
         try:
             metrics.append(calculate_metrics(ticker, download_prices(ticker)))
         except (ValueError, KeyError) as error:
             print(f"Skipping {ticker}: {error}")
-    if not metrics:
+    if not metrics: # If all inputs are invalid, an error message resolution is seen. 
         raise SystemExit("No valid ticker data was found.")
-    mark_efficient_stocks(metrics)
-    print_summary(metrics)
-    create_plot(metrics, OUTPUT_FILE)
-    print(f"\nSaved visualization to {OUTPUT_FILE.resolve()}")
+    mark_efficient_stocks(metrics) # Efficient stocks are determined. 
+    print_summary(metrics) # Summary table is constructed. 
+    create_plot(metrics, OUTPUT_FILE) # Plot is created. 
+    print(f"\nSaved visualization to {OUTPUT_FILE.resolve()}") # Ensure graph is shown (file path shown).
 
 # main() method called. 
 
