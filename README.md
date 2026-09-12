@@ -23,7 +23,14 @@ This application takes real-time financial metrics from the yfinance API and the
 These are all correlative to stocks; plots (scatter) for historical distributions and comparisons, with asymptotic risk levels are created. 
 
 ## Learning Technicalities
-- [x] ummm
+- [x] Formulas and rationales for a multitude of different financial concepts (Sharpe's Ratio, Sortino's Ratio, the. Pareto Efficient Frontier, etc.).
+- [x] Utilizing matplot.lib to construct a scatter plot consistent of multiple plot, in conjunction with pathlib (localizing graph's file path).
+- [x] Utilizing datetime to pull daily information and utilize it to calculate historical-based stock data metrics.
+- [x] Developing skills in relation to pulling financial information from the yfinance API and even manipulated said information.
+- [x] Utilizing filter conditions to filter out specific standard deviations from a data frame (in this case, downside deviations(.
+- [x] Through comparison statements and conditionals, comparing different elements (candidates) with others based on attributes (in this case, risk and return).
+- [x] Using a new library known as scipy.stats for tstd() function, which trims excess values during a standard deviation calculation from a data source (frame or otherwise).
+- [x] 
 
 ## Skills
 - [x] Python 3
@@ -39,4 +46,4 @@ Tested and reviewed codebase.
 
 //TODO
 
-RiskFreeRate --> Constantly Changing (Dynamic)
+- [ ] RiskFreeRate --> Constantly Changing (Dynamic)
