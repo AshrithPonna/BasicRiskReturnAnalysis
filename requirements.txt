@@ -1,7 +1,7 @@
-// Library constraints (set by client)
+// Library constraints (set by client) 
 
 yfinance
 pandas
 numpy
 matplotlib
-scipy
+scipy - learning probability relevance.
