@@ -30,7 +30,7 @@ These are all correlative to stocks; plots (scatter) for historical distribution
 - [x] Utilizing filter conditions to filter out specific standard deviations from a data frame (in this case, downside deviations).
 - [x] Through comparison statements and conditionals, comparing different elements (candidates) with others based on attributes (in this case, risk and return).
 - [x] Using a new library known as scipy.stats for tstd() function, which trims excess values during a standard deviation calculation from a data source (frame or otherwise).
-- [x] Parsing multiple input parameters from the terminal and calculating various different values for each, with comparison statements (referencing point 6).
+- [x] Parsing multiple input parameters (with improved input validation) from the terminal and calculating various different values for each, with comparison statements (referencing point 6).
 
 ## Skills
 - [x] Python 3
