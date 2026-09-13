@@ -1,4 +1,4 @@
-# Basic Risk Return Analysis
+# Risk Return Analysis
 
 Stock Risk Analyses 
 
